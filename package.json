@@ -1,0 +1,28 @@
+{
+  "name": "vitepress-plugin-postchat",
+  "version": "1.0.0",
+  "description": "VitePress plugin for PostChat summary",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vitepress",
+    "plugin",
+    "postchat"
+  ],
+  "author": "zhheo",
+  "license": "MIT",
+  "peerDependencies": {
+    "vitepress": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5",
+    "vitepress": "^1.0.0"
+  }
+}
