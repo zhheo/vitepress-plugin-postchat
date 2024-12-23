@@ -10,7 +10,7 @@
 
 ![quickshot.webp](https://img.zhheo.com/i/2024/12/16/675fa3d24b0f7.webp)
 
-PostChat是一个专为中小开发者与站长开发的AI增强工具，可以在网站中插入聊天机器人和智能摘要生成的功能。本项目提供专为Halo博客系统的插件安装包，你可以在Halo博客中安装使用，避免了插入代码的繁琐。
+PostChat是一个专为中小开发者与站长开发的AI增强工具，可以在网站中插入聊天机器人和智能摘要生成的功能。本项目提供专为VitePress系统的插件安装包，你可以在VitePress中安装使用，避免了插入代码的繁琐。
 
 ## 功能
 
@@ -26,6 +26,12 @@ PostChat是一个专为中小开发者与站长开发的AI增强工具，可以�
 ## 本插件在VitePress中的表现
 
 [预览地址](https://postchat.zhheo.com/)
+
+## PostChat在更多网站中的表现
+
+[张洪Heo](https://blog.zhheo.com/)
+
+[Tianli](https://tianli-blog.club/)
 
 ## 安装
 
@@ -108,14 +114,12 @@ export default defineConfig({
 
 `npm install vitepress-plugin-postchat@latest`
 
-## 开发
+## 主题适配
 
-测试
+此插件支持所有的PostChat开发API，提供主题开发者对于PostChat的控制能力。包括深色模式切换：`postChatUser.setPostChatTheme('dark')`；聊天窗口输入框：`postChatUser.setPostChatInput(content)`等。
 
-npm run docs:dev
+详见开发者文档：https://postchat.zhheo.com/advanced/theme.html
 
-发布
+## 开发者
 
-npm login
-
-npm publish
+PostChat由[张洪Heo](https://github.com/zhheo)与[Tianli](https://github.com/TIANLI0)共同构建，技术支持请联系：zhheo@qq.com（一个工作日内回复）

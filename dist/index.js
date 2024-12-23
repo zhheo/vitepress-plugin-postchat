@@ -19,23 +19,25 @@ function getPostChatHeadConfig(options) {
         return `  ${key}: ${value}`;
     })
         .join(',\n');
-    // 添加配置脚本
+    // 修改配置脚本，添加变量存在性检查
     heads.push([
         'script',
         {},
         `
-      let tianliGPT_key = '${key}';
-      let tianliGPT_postSelector = '${postSelector}';
-      let tianliGPT_Title = '${title}';
-      let tianliGPT_postURL = '${postURL}';
-      let tianliGPT_blacklist = '${blacklist}';
-      let tianliGPT_wordLimit = '${wordLimit}';
-      let tianliGPT_typingAnimate = ${typingAnimate};
-      let tianliGPT_theme = '${summaryTheme}';
-      let tianliGPT_BeginningText = '${beginningText}';
-      let postChatConfig = {
-${configStr}
-      };
+      if (typeof tianliGPT_key === 'undefined') {
+        window.tianliGPT_key = '${key}';
+        window.tianliGPT_postSelector = '${postSelector}';
+        window.tianliGPT_Title = '${title}';
+        window.tianliGPT_postURL = '${postURL}';
+        window.tianliGPT_blacklist = '${blacklist}';
+        window.tianliGPT_wordLimit = '${wordLimit}';
+        window.tianliGPT_typingAnimate = ${typingAnimate};
+        window.tianliGPT_theme = '${summaryTheme}';
+        window.tianliGPT_BeginningText = '${beginningText}';
+        window.postChatConfig = {
+          ${configStr}
+        };
+      }
     `
     ]);
     // 添加主脚本
