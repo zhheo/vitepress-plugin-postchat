@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { postChat } from '../../dist/index'
+import { postChat } from '../../src/index'
 
 console.log('Loading VitePress config')
 
@@ -32,7 +32,7 @@ export default defineConfig({
     plugins: [
       postChat({
         // 账户设置
-        key: 'your_key_here',
+        key: '70b649f150276f289d1025508f60c5f58a', //可以到 https://ai.tianli0.top/ 获取账户KEY
 
         // 文章摘要设置
         enableSummary: true, // 是否启用文章摘要
@@ -58,8 +58,8 @@ export default defineConfig({
           width: "44px", // 按钮宽度
           
           // iframe模式配置
-          frameWidth: "375px", // iframe宽度
-          frameHeight: "600px", // iframe高度
+          frameWidth: "375px", // iframe宽度（仅在iframe模式下有效）
+          frameHeight: "600px", // iframe高度（仅在iframe模式下有效）
           
           // 功能配置
           defaultInput: true, // 自动填充当前页面标题
@@ -74,14 +74,16 @@ export default defineConfig({
           
           // 预设问题配置
           defaultChatQuestions: [
-            { question: "这个网站是做什么的？" },
-            { question: "有什么特色功能？" },
-            { question: "如何使用这个网站？" }
-          ], // 默认聊天问题
+            "你好",
+            "你是谁",
+            "你是做什么的",
+            "你有什么功能",
+            "你有什么用"
+          ],
           defaultSearchQuestions: [
-            { question: "最新文章" },
-            { question: "热门文章" }
-          ] // 默认搜索问题
+            "视频压缩",
+            "制作黄焖鸡"
+          ]
         }
       })
     ]

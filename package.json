@@ -1,6 +1,6 @@
 {
   "name": "vitepress-plugin-postchat",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "type": "module",
   "description": "VitePress plugin for PostChat summary",
   "main": "dist/index.js",

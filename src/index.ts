@@ -34,17 +34,14 @@ export interface PostChatOptions {
     userDesc?: string
     userIcon?: string
     addButton?: boolean
-    defaultChatQuestions?: Array<{ question: string }>
-    defaultSearchQuestions?: Array<{ question: string }>
+    defaultChatQuestions?: string[]
+    defaultSearchQuestions?: string[]
   }
 }
 
 export function postChat(options: PostChatOptions): Plugin {
   const {
-    // 账户设置
     key,
-    
-    // 文章摘要设置
     enableSummary = true,
     postSelector = 'article',
     title = '文章摘要',
@@ -55,8 +52,6 @@ export function postChat(options: PostChatOptions): Plugin {
     typingAnimate = true,
     beginningText = '这篇文章介绍了',
     summaryTheme = 'default',
-
-    // 智能对话设置
     enableAI = true,
     userMode = 'magic',
     postChatConfig = {
@@ -77,29 +72,20 @@ export function postChat(options: PostChatOptions): Plugin {
       defaultChatQuestions: [],
       defaultSearchQuestions: []
     }
-  } = options
+  } = options;
+
+  let jsPath = '';
+  if (enableSummary && enableAI) {
+    jsPath = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.js';
+  } else if (enableAI) {
+    jsPath = 'https://ai.tianli0.top/static/public/postChatUser.min.js';
+  } else if (enableSummary) {
+    jsPath = 'https://ai.tianli0.top/static/public/tianli_gpt.min.js';
+  }
 
   return {
     name: 'vitepress-plugin-postchat',
-    transform(code: string, id: string) {
-      // 只处理 HTML 文件
-      if (!id.endsWith('.html') && !id.endsWith('.vue')) {
-        return code
-      }
-
-      if (!enableAI && !enableSummary) {
-        return code
-      }
-
-      let jsPath = ''
-      if (enableSummary && enableAI) {
-        jsPath = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.js'
-      } else if (enableAI) {
-        jsPath = 'https://ai.tianli0.top/static/public/postChatUser.min.js'
-      } else if (enableSummary) {
-        jsPath = 'https://ai.tianli0.top/static/public/tianli_gpt.min.js'
-      }
-
+    transformIndexHtml(html) {
       const configScript = `
         <!-- PostChat Plugin start -->
         <link rel="stylesheet" href="${summaryStyle}">
@@ -112,6 +98,7 @@ export function postChat(options: PostChatOptions): Plugin {
           window.tianliGPT_wordLimit = '${wordLimit}';
           window.tianliGPT_typingAnimate = ${typingAnimate};
           window.tianliGPT_theme = '${summaryTheme}';
+          window.tianliGPT_BeginningText = '${beginningText}';
           window.postChatConfig = {
             backgroundColor: "${postChatConfig.backgroundColor}",
             bottom: "${postChatConfig.bottom}",
@@ -135,9 +122,8 @@ export function postChat(options: PostChatOptions): Plugin {
         </script>
         ${jsPath ? `<script data-postChat_key="${key}" src="${jsPath}" defer></script>` : ''}
         <!-- PostChat Plugin end -->
-      `
-
-      return code.replace('</head>', `${configScript}</head>`)
+      `;
+      return html.replace('</head>', `${configScript}</head>`);
     }
-  }
-} 
+  };
+}
