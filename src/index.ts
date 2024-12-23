@@ -81,7 +81,12 @@ export function postChat(options: PostChatOptions): Plugin {
 
   return {
     name: 'vitepress-plugin-postchat',
-    transformHtml(code) {
+    transform(code: string, id: string) {
+      // 只处理 HTML 文件
+      if (!id.endsWith('.html') && !id.endsWith('.vue')) {
+        return code
+      }
+
       if (!enableAI && !enableSummary) {
         return code
       }
@@ -99,15 +104,15 @@ export function postChat(options: PostChatOptions): Plugin {
         <!-- PostChat Plugin start -->
         <link rel="stylesheet" href="${summaryStyle}">
         <script>
-          let tianliGPT_key = '${key}';
-          let tianliGPT_postSelector = '${postSelector}';
-          let tianliGPT_Title = '${title}';
-          let tianliGPT_postURL = '${postURL}';
-          let tianliGPT_blacklist = '${blacklist}';
-          let tianliGPT_wordLimit = '${wordLimit}';
-          let tianliGPT_typingAnimate = ${typingAnimate};
-          let tianliGPT_theme = '${summaryTheme}';
-          var postChatConfig = {
+          window.tianliGPT_key = '${key}';
+          window.tianliGPT_postSelector = '${postSelector}';
+          window.tianliGPT_Title = '${title}';
+          window.tianliGPT_postURL = '${postURL}';
+          window.tianliGPT_blacklist = '${blacklist}';
+          window.tianliGPT_wordLimit = '${wordLimit}';
+          window.tianliGPT_typingAnimate = ${typingAnimate};
+          window.tianliGPT_theme = '${summaryTheme}';
+          window.postChatConfig = {
             backgroundColor: "${postChatConfig.backgroundColor}",
             bottom: "${postChatConfig.bottom}",
             left: "${postChatConfig.left}",
@@ -128,9 +133,10 @@ export function postChat(options: PostChatOptions): Plugin {
             defaultSearchQuestions: ${JSON.stringify(postChatConfig.defaultSearchQuestions || [])}
           };
         </script>
-        ${jsPath ? `<script data-postChat_key="${key}" src="${jsPath}"></script>` : ''}
+        ${jsPath ? `<script data-postChat_key="${key}" src="${jsPath}" defer></script>` : ''}
         <!-- PostChat Plugin end -->
       `
+
       return code.replace('</head>', `${configScript}</head>`)
     }
   }
