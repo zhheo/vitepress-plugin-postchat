@@ -23,8 +23,22 @@ function getPostChatHeadConfig(options: PostChatOptions): HeadConfig[] {
 
   // 添加样式
   if (enableSummary) {
-    heads.push(['link', { rel: 'stylesheet', href: summaryStyle }])
+    heads.push(['link', { rel: 'stylesheet', href: summaryStyle || '' }])
   }
+
+  // 将对象转换为JavaScript对象字面量形式的字符串
+  const configStr = Object.entries(postChatConfig || {})
+    .map(([key, value]) => {
+      if (typeof value === 'string') {
+        return `  ${key}: "${value}"`
+      } else if (Array.isArray(value)) {
+        return `  ${key}: [
+    ${value.map(item => `"${item}"`).join(',\n    ')}
+  ]`
+      }
+      return `  ${key}: ${value}`
+    })
+    .join(',\n')
 
   // 添加配置脚本
   heads.push([
@@ -40,7 +54,9 @@ function getPostChatHeadConfig(options: PostChatOptions): HeadConfig[] {
       let tianliGPT_typingAnimate = ${typingAnimate};
       let tianliGPT_theme = '${summaryTheme}';
       let tianliGPT_BeginningText = '${beginningText}';
-      let postChatConfig = ${JSON.stringify(postChatConfig)};
+      let postChatConfig = {
+${configStr}
+      };
     `
   ])
 
@@ -50,8 +66,8 @@ function getPostChatHeadConfig(options: PostChatOptions): HeadConfig[] {
       'script',
       {
         src: jsPath,
-        defer: true,
-        'data-postChat_key': key
+        defer: "true",
+        'data-postChat_key': key || ''
       }
     ])
   }
@@ -106,6 +122,7 @@ export function postChat(options: PostChatOptions): Plugin {
     }
   } = options;
 
+  // 在函数内部计算 jsPath
   let jsPath = '';
   if (enableSummary && enableAI) {
     jsPath = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.js';

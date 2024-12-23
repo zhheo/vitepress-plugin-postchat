@@ -32,4 +32,5 @@ export interface PostChatOptions {
   enableAI?: boolean
   userMode?: 'magic' | 'iframe'
   postChatConfig?: PostChatConfig
+  jsPath?: string
 } 
