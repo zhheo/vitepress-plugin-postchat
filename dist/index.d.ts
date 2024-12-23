@@ -1,6 +1,6 @@
 import type { Plugin } from 'vitepress';
 export interface PostChatOptions {
-    key: string;
+    key?: string;
     enableSummary?: boolean;
     postSelector?: string;
     title?: string;
@@ -28,12 +28,8 @@ export interface PostChatOptions {
         userDesc?: string;
         userIcon?: string;
         addButton?: boolean;
-        defaultChatQuestions?: Array<{
-            question: string;
-        }>;
-        defaultSearchQuestions?: Array<{
-            question: string;
-        }>;
+        defaultChatQuestions?: string[];
+        defaultSearchQuestions?: string[];
     };
 }
 export declare function postChat(options: PostChatOptions): Plugin;

@@ -2,7 +2,7 @@ import type { Plugin } from 'vitepress'
 
 export interface PostChatOptions {
   // 账户设置
-  key: string
+  key?: string
 
   // 文章摘要设置
   enableSummary?: boolean
@@ -41,12 +41,12 @@ export interface PostChatOptions {
 
 export function postChat(options: PostChatOptions): Plugin {
   const {
-    key,
+    key = '70b649f150276f289d1025508f60c5f58a',
     enableSummary = true,
-    postSelector = 'article',
+    postSelector = '#VPContent .container > .content',
     title = '文章摘要',
     summaryStyle = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css',
-    postURL = '*/archives/*',
+    postURL = '*',
     blacklist = '',
     wordLimit = 1000,
     typingAnimate = true,
@@ -69,8 +69,17 @@ export function postChat(options: PostChatOptions): Plugin {
       userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～",
       userIcon: "",
       addButton: true,
-      defaultChatQuestions: [],
-      defaultSearchQuestions: []
+      defaultChatQuestions: [
+        "你好",
+        "你是谁",
+        "你是做什么的",
+        "你有什么功能",
+        "你有什么用"
+      ],
+      defaultSearchQuestions: [
+        "视频压缩",
+        "制作黄焖鸡"
+      ]
     }
   } = options;
 
@@ -88,18 +97,18 @@ export function postChat(options: PostChatOptions): Plugin {
     transformIndexHtml(html) {
       const configScript = `
         <!-- PostChat Plugin start -->
-        <link rel="stylesheet" href="${summaryStyle}">
+        ${enableSummary ? `<link rel="stylesheet" href="${summaryStyle}">` : ''}
         <script>
-          window.tianliGPT_key = '${key}';
-          window.tianliGPT_postSelector = '${postSelector}';
-          window.tianliGPT_Title = '${title}';
-          window.tianliGPT_postURL = '${postURL}';
-          window.tianliGPT_blacklist = '${blacklist}';
-          window.tianliGPT_wordLimit = '${wordLimit}';
-          window.tianliGPT_typingAnimate = ${typingAnimate};
-          window.tianliGPT_theme = '${summaryTheme}';
-          window.tianliGPT_BeginningText = '${beginningText}';
-          window.postChatConfig = {
+          let tianliGPT_key = '${key}';
+          let tianliGPT_postSelector = '${postSelector}';
+          let tianliGPT_Title = '${title}';
+          let tianliGPT_postURL = '${postURL}';
+          let tianliGPT_blacklist = '${blacklist}';
+          let tianliGPT_wordLimit = '${wordLimit}';
+          let tianliGPT_typingAnimate = ${typingAnimate};
+          let tianliGPT_theme = '${summaryTheme}';
+          let tianliGPT_BeginningText = '${beginningText}';
+          let postChatConfig = {
             backgroundColor: "${postChatConfig.backgroundColor}",
             bottom: "${postChatConfig.bottom}",
             left: "${postChatConfig.left}",

@@ -1,5 +1,5 @@
 export function postChat(options) {
-    const { key, enableSummary = true, postSelector = 'article', title = '文章摘要', summaryStyle = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css', postURL = '*/archives/*', blacklist = '', wordLimit = 1000, typingAnimate = true, beginningText = '这篇文章介绍了', summaryTheme = 'default', enableAI = true, userMode = 'magic', postChatConfig = {
+    const { key = '70b649f150276f289d1025508f60c5f58a', enableSummary = true, postSelector = '#VPContent .container > .content', title = '文章摘要', summaryStyle = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css', postURL = '*', blacklist = '', wordLimit = 1000, typingAnimate = true, beginningText = '这篇文章介绍了', summaryTheme = 'default', enableAI = true, userMode = 'magic', postChatConfig = {
         backgroundColor: "#3e86f6",
         fill: "#FFFFFF",
         bottom: "16px",
@@ -14,8 +14,17 @@ export function postChat(options) {
         userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～",
         userIcon: "",
         addButton: true,
-        defaultChatQuestions: [],
-        defaultSearchQuestions: []
+        defaultChatQuestions: [
+            "你好",
+            "你是谁",
+            "你是做什么的",
+            "你有什么功能",
+            "你有什么用"
+        ],
+        defaultSearchQuestions: [
+            "视频压缩",
+            "制作黄焖鸡"
+        ]
     } } = options;
     let jsPath = '';
     if (enableSummary && enableAI) {
@@ -32,7 +41,7 @@ export function postChat(options) {
         transformIndexHtml(html) {
             const configScript = `
         <!-- PostChat Plugin start -->
-        <link rel="stylesheet" href="${summaryStyle}">
+        ${enableSummary ? `<link rel="stylesheet" href="${summaryStyle}">` : ''}
         <script>
           window.tianliGPT_key = '${key}';
           window.tianliGPT_postSelector = '${postSelector}';
@@ -42,6 +51,7 @@ export function postChat(options) {
           window.tianliGPT_wordLimit = '${wordLimit}';
           window.tianliGPT_typingAnimate = ${typingAnimate};
           window.tianliGPT_theme = '${summaryTheme}';
+          window.tianliGPT_BeginningText = '${beginningText}';
           window.postChatConfig = {
             backgroundColor: "${postChatConfig.backgroundColor}",
             bottom: "${postChatConfig.bottom}",
