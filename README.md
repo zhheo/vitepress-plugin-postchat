@@ -46,6 +46,8 @@ PostChat是一个专为中小开发者与站长开发的AI增强工具，可以�
 在defineConfig中添加配置（在指定位置添加对应代码，而不是直接插入到后面）：
 
 ```ts
+import { postChat } from 'vitepress-plugin-postchat'
+
 export default defineConfig({
   vite: {
     plugins: [
