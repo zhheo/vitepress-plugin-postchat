@@ -32,13 +32,13 @@ export default defineConfig({
     plugins: [
       postChat({
         // 账户设置
-        key: '70b649f150276f289d1025508f60c5f58a', //可以到 https://ai.tianli0.top/ 获取账户KEY
+        key: '70b649f150276f289d1025508f60c5f58a', //可以到 https://ai.zhheo.com/ 获取账户KEY
 
         // 文章摘要设置
         enableSummary: true, // 是否启用文章摘要
         postSelector: '#VPContent .container > .content', // 文章选择器
         title: '文章摘要', // 文章摘要标题
-        summaryStyle: 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css', // 文章摘要样式
+        summaryStyle: 'https://ai.zhheo.com/static/public/postChatUser_summary.min.css', // 文章摘要样式
         postURL: '*', // 文章URL
         blacklist: '', // 黑名单
         wordLimit: 1000, // 字数限制

@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://ai.tianli0.top/" target="_blank" rel="noopener noreferrer">
+    <a href="https://ai.zhheo.com/" target="_blank" rel="noopener noreferrer">
         <img src="https://img.zhheo.com/i/2024/06/21/6674f00f3eb9d.webp" alt="icon"/>
     </a>
     <h1 align="center">PostChat</h1>
@@ -21,7 +21,7 @@ PostChat是一个专为中小开发者与站长开发的AI增强工具，可以�
 - 文章知识库对话功能
 - 文章AI搜索功能
 
-更多功能可以参见：https://ai.tianli0.top/
+更多功能可以参见：https://ai.zhheo.com/
 
 ## 本插件在VitePress中的表现
 
@@ -53,13 +53,14 @@ export default defineConfig({
     plugins: [
       postChat({
         // 账户设置
-        key: '70b649f150276f289d1025508f60c5f58a', //可以到 https://ai.tianli0.top/ 获取账户KEY
+        key: '70b649f150276f289d1025508f60c5f58a', //可以到 https://ai.zhheo.com/ 获取账户KEY
 
         // 文章摘要设置
         enableSummary: true, // 是否启用文章摘要
+        tianliGPTPodcast: false, // 是否启用 AI 播客功能，默认关闭
         postSelector: '#VPContent .container > .content', // 文章选择器
         title: '文章摘要', // 文章摘要标题
-        summaryStyle: 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css', // 文章摘要样式
+        summaryStyle: 'https://ai.zhheo.com/static/public/postChatUser_summary.min.css', // 文章摘要样式
         postURL: '*', // 文章URL
         blacklist: '', // 黑名单
         wordLimit: 1000, // 字数限制
@@ -104,7 +105,9 @@ export default defineConfig({
           defaultSearchQuestions: [
             "视频压缩",
             "制作黄焖鸡"
-          ]
+          ],
+          recommend: 0,   // 文章底部推荐文章数量，0 为不显示，最大 10
+          hotWords: true  // 是否启用热词功能
         }
       })
     ]

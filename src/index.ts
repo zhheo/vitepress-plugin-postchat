@@ -15,6 +15,7 @@ function getPostChatHeadConfig(options: PostChatOptions): HeadConfig[] {
     typingAnimate,
     summaryTheme,
     beginningText,
+    tianliGPTPodcast,
     postChatConfig,
     jsPath
   } = options
@@ -41,6 +42,10 @@ function getPostChatHeadConfig(options: PostChatOptions): HeadConfig[] {
     .join(',\n')
 
   // 修改配置脚本，添加变量存在性检查
+  const podcastScript = tianliGPTPodcast
+    ? `if (typeof tianliGPT_podcast === 'undefined') { window.tianliGPT_podcast = true; }`
+    : ''
+
   heads.push([
     'script',
     {},
@@ -55,6 +60,7 @@ function getPostChatHeadConfig(options: PostChatOptions): HeadConfig[] {
         window.tianliGPT_typingAnimate = ${typingAnimate};
         window.tianliGPT_theme = '${summaryTheme}';
         window.tianliGPT_BeginningText = '${beginningText}';
+        ${podcastScript}
         window.postChatConfig = {
           ${configStr}
         };
@@ -86,7 +92,7 @@ export function postChat(options: PostChatOptions): Plugin {
     enableSummary = true,
     postSelector = '#VPContent .container > .content',
     title = '文章摘要',
-    summaryStyle = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css',
+    summaryStyle = 'https://ai.zhheo.com/static/public/postChatUser_summary.min.css',
     postURL = '*',
     blacklist = '',
     wordLimit = 1000,
@@ -127,11 +133,11 @@ export function postChat(options: PostChatOptions): Plugin {
   // 在函数内部计算 jsPath
   let jsPath = '';
   if (enableSummary && enableAI) {
-    jsPath = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.js';
+    jsPath = 'https://ai.zhheo.com/static/public/postChatUser_summary.min.js';
   } else if (enableAI) {
-    jsPath = 'https://ai.tianli0.top/static/public/postChatUser.min.js';
+    jsPath = 'https://ai.zhheo.com/static/public/postChatUser.min.js';
   } else if (enableSummary) {
-    jsPath = 'https://ai.tianli0.top/static/public/tianli_gpt.min.js';
+    jsPath = 'https://ai.zhheo.com/static/public/tianli_gpt.min.js';
   }
 
   return {

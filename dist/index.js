@@ -1,5 +1,5 @@
 function getPostChatHeadConfig(options) {
-    const { key, enableSummary, summaryStyle, postSelector, title, postURL, blacklist, wordLimit, typingAnimate, summaryTheme, beginningText, postChatConfig, jsPath } = options;
+    const { key, enableSummary, summaryStyle, postSelector, title, postURL, blacklist, wordLimit, typingAnimate, summaryTheme, beginningText, tianliGPTPodcast, postChatConfig, jsPath } = options;
     const heads = [];
     // 添加样式
     if (enableSummary) {
@@ -20,6 +20,9 @@ function getPostChatHeadConfig(options) {
     })
         .join(',\n');
     // 修改配置脚本，添加变量存在性检查
+    const podcastScript = tianliGPTPodcast
+        ? `if (typeof tianliGPT_podcast === 'undefined') { window.tianliGPT_podcast = true; }`
+        : '';
     heads.push([
         'script',
         {},
@@ -34,6 +37,7 @@ function getPostChatHeadConfig(options) {
         window.tianliGPT_typingAnimate = ${typingAnimate};
         window.tianliGPT_theme = '${summaryTheme}';
         window.tianliGPT_BeginningText = '${beginningText}';
+        ${podcastScript}
         window.postChatConfig = {
           ${configStr}
         };
@@ -56,7 +60,7 @@ function getPostChatHeadConfig(options) {
 export function postChat(options) {
     let resolveConfig;
     let vitepressConfig;
-    const { key = '70b649f150276f289d1025508f60c5f58a', enableSummary = true, postSelector = '#VPContent .container > .content', title = '文章摘要', summaryStyle = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.css', postURL = '*', blacklist = '', wordLimit = 1000, typingAnimate = true, beginningText = '这篇文章介绍了', summaryTheme = 'default', enableAI = true, userMode = 'magic', postChatConfig = {
+    const { key = '70b649f150276f289d1025508f60c5f58a', enableSummary = true, postSelector = '#VPContent .container > .content', title = '文章摘要', summaryStyle = 'https://ai.zhheo.com/static/public/postChatUser_summary.min.css', postURL = '*', blacklist = '', wordLimit = 1000, typingAnimate = true, beginningText = '这篇文章介绍了', summaryTheme = 'default', enableAI = true, userMode = 'magic', postChatConfig = {
         backgroundColor: "#3e86f6",
         fill: "#FFFFFF",
         bottom: "16px",
@@ -86,13 +90,13 @@ export function postChat(options) {
     // 在函数内部计算 jsPath
     let jsPath = '';
     if (enableSummary && enableAI) {
-        jsPath = 'https://ai.tianli0.top/static/public/postChatUser_summary.min.js';
+        jsPath = 'https://ai.zhheo.com/static/public/postChatUser_summary.min.js';
     }
     else if (enableAI) {
-        jsPath = 'https://ai.tianli0.top/static/public/postChatUser.min.js';
+        jsPath = 'https://ai.zhheo.com/static/public/postChatUser.min.js';
     }
     else if (enableSummary) {
-        jsPath = 'https://ai.tianli0.top/static/public/tianli_gpt.min.js';
+        jsPath = 'https://ai.zhheo.com/static/public/tianli_gpt.min.js';
     }
     return {
         name: 'vitepress-plugin-postchat',
